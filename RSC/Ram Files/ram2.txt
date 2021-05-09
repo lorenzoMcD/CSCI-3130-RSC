@@ -1,0 +1,100 @@
+; Name: Lorenzo McDaniel
+; Program: ram2
+; OLA 8  
+; ram2 ASM program that solves OLA 8 problems 
+  
+  JMP start
+  
+  ; Variables
+
+  var1: 2B
+  var2: A9
+  var3: AF
+  var4: D1  
+  result_1:0 ; holds result for A9 + 2B
+  result_2:0 ; holds result for A9 - 2B
+  result_3:0 ; holds result for A9 AND 2B
+  result_4:0 ; holds result for A9 OR 2B
+  result_5:0 ; holds result for ASHR A9 
+  result_6:0 ; holds result for AF + 1
+  result_7:0 ; holds result for NOT D1
+ 
+  
+
+
+  start:       ; the label 'start'. The jump statement earlier jumps here
+
+; Perform A9 + 2B
+     LDAC var1     ; Load the first variable into Accumulator
+     MOVAC         ; Move the contents of Accumulator to R
+     LDAC var2     ; Load the second variable into Accumulator
+     ADD           ; Add Accumulator and R, move result into Accumulator
+     STAC result_1 ; store the result of first calc in result_1
+     CLAC          ; clear the ACC
+
+; Perform  A9 - 2B
+     LDAC var1     ; start of second calc
+     MOVAC         ; move accumulator into R          
+     LDAC var2     ; load var 2 into accumulator 
+     SUB           ; subtract ACC - R
+     STAC result_2 ; store the result of subtract thats in ACC in var result_2
+     MOVR          ; move value stored in R to ACC
+
+ 
+; Perform Boolean AND    
+     MOVAC         ; move accumulator into R
+     LDAC var2     ; load var2 into the accumulator
+     AND           ; perform AND operation on var1 and var2 , result that goes in ACC will be the lesser of var1 and var2
+     STAC result_3 ; store result from bool operation in result_3 variable
+     CLAC
+ 
+; Perform Boolean OR
+
+     LDAC var1     ; move var1 into acc
+     MOVAC         ; move var1 into R
+     LDAC var2     ; move var2 into acc
+     OR            ; perform boolean or operation , the result left in ACC will be the greater of var1 and var2
+     STAC result_4 ; store ACC into the result_4 var
+     CLAC
+ 
+; Perform ASHR A9
+     
+     LDAC var2     ; Load A9(var2) into the ACC
+     ASHR          ; perform arith shift on A9    
+     STAC result_5 ; store the result of ASHR into the result_5 var
+     CLAC
+
+; Perform AF + 1
+
+     INC           ; increment the ACC from 0 to 1
+     MOVAC         ; move value in ACC to R
+     LDAC var3     ; Load AF(var3) to ACC
+     ADD           ; Perform add operation
+     STAC result_6 ; store the result in var 
+     CLAC         
+
+
+; Perform NOT D1
+     LDAC var4     ; Load D1(var4)
+     NOT           ; perform not operation
+     STAC result_7 ; store ACC in result var 
+     CLAC     
+
+
+; OUTPUT Results from past operations
+     LDAC result_1
+     OUT
+     LDAC result_2
+     OUT
+     LDAC result_3
+     OUT
+     LDAC result_4
+     OUT
+     LDAC result_5 
+     OUT
+     LDAC result_6
+     OUT
+     LDAC result_7
+     OUT
+
+      HALT      ; Stop execution

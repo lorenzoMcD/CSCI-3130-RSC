@@ -1,0 +1,23 @@
+PC_BUS= t0 + t2
+AR_LD= (t0 + t2 + t4(d1 + d2)) !clock
+PC_LD=  (t4(d5 +z d6)) !clock
+PC_INC= (t1 + t3(d1 + d2 + d6 !z)) !clock
+DR_LD= (t1 + t3(d1 + d2 + d5 + d6 z) + t5(d1 + d2)) !clock
+DR_BUS= t4(d1 + d2 + d5 + d6 z) + t6(d1 + d2)
+R_LD= (t3(d3)) !clock
+R_BUS= t3(d4 + d8 + d9 + d12 + d13)
+S_LD= (t3(d0)) !clock
+ACC_CLR= t3(d11)
+ACC_LD= (t3(d4 + d8 + d9 + d10 + d12 + d13 + d14 + d15) + t6(d1)) !clock
+ACC_BUS= t3(d3 + d7) + t5(d2)
+;ALU_SEL
+S2= d12 + d13 + d14 + d15
+S1= d1 + d4 + d10 + d14 + d15
+S0= d1 + d4 + d9 + d13 + d15
+RAM_RW= t1 + t3 (d1 + d2 + d5 + z d6) + d1 t5
+RAM_EN= t1 + t3 (d1 + d2 + d5 + z d6) + d1 t5 + d2 t6
+SC_CLR= t4 !(d1 + d2 + d5 + z d6) + t5 (d5 + z d6) + t7
+OUTR_LD = t3(d7) !clock
+Z_LD = 1
+IR_LD = (t2) !clock
+

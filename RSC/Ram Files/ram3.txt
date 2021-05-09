@@ -1,0 +1,103 @@
+;; author: Lorenzo McDaniel
+;; program name: ram3
+;; Program calculates the average of 8 numbers
+;; This program will add up 8 variables which should total to 72(decimal) or 48(hexidecimal)
+;; The program will jump to function called divide and will calculate the average of the 8 vars
+;; the expected output should be -- 48(hexidecimal) / 8(hexidecimal) == 9(hexidecimal)
+
+
+; Jump over the data section
+
+JMP _add_nums
+
+;; Data segment
+
+x1:   0 	 ;var that will hold the total sum of vars to be added
+x2:   8 	 ;var that holds count of vars to be added
+x3:   0          ;var holds the final result
+
+;; vars to be added
+;; total of vars should add up to 72(decimal) or 48(hexidecimal)
+var1: 2 
+var2: 4
+var3: 6
+var4: 8
+var5: A      ; 10 in hexidecimal 
+var6: C      ; 12 in hexidecimal
+var7: E      ; 14 in hexidecimal
+var8: 10     ; 16 in hexidecimal 
+
+
+;; Text segment
+
+;; add up var1 - var8 to get a total for the average
+_add_nums:  
+    LDAC var1
+    MVAC 
+    LDAC var2
+    ADD
+    MVAC 
+    LDAC var3
+    ADD
+    MVAC 
+    LDAC var4
+    ADD
+    MVAC
+    LDAC var5
+    ADD
+    MVAC
+    LDAC var6
+    ADD
+    MVAC
+    LDAC var7
+    ADD  
+    MVAC
+    LDAC var8
+    ADD
+    STAC x1    ; store the sum of all vars in the x1 var
+    
+
+;; after getting the total jump to divide function
+    JMP _divide    
+
+
+
+;; division function was implemented using repeated subtraction.
+;; Ex. if you want to divide 12/3.. you subtract 12-3  take result and subtract again by 3. Keep repeating this until the result is 0. After result is zero the count of
+;; operations it took for you to get to 0 is the answer. 12/3 = 4  there were four subtraction operations performed before the result got to 0.
+
+;; begin divide function
+  
+_divide:
+
+    INC ; make sure z flag not set to 0 before start loop 
+  
+_loop:
+    JMPZ _print ; ends loop if z flag is turned on // when acc = 0 
+    LDAC x2     ; load x2(count) to acc
+    MVAC        ; move acc to r
+    LDAC x1     ; place x1(total) var in the acc
+    SUB         ; subtract ACC - R
+    STAC x1     ; store the result in x1 var 
+    LDAC x3     ; load the counter
+    MVAC        ; move acc to R
+    CLAC        ; clear
+    INC         ; will add 1 to ACC
+    ADD         ; add ACC and R
+    STAC  x3    ; save the updated count
+    LDAC  x1    ; load up x1 
+    MVAC        ; move x1 to R
+    CLAC        ; clear the ACC
+    OR          ;;  perform a OR operation .. Want to compare ACC which should be zero to the var x1 
+                ;;  if the value in x1 == 0 then the Z flag on the next iteration of loop will be turned on
+                
+   JMP _loop    ; repeat the loop 
+  
+
+_print: 
+
+    LDAC x3     ;load up the x3 var which contains the final answer
+    OUT         ; output the x3 var
+  
+;; End
+    HALT
